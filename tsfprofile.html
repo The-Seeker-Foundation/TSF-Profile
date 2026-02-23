@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Seeker Foundation — Thoughts to Action</title>
+
+<style>
+:root{--teal:#1a7a6d;--teal-deep:#0f5c52;--teal-light:#2a9d8f;--gold:#d4a84b;--gold-light:#e8c97a;--cream:#faf7f2;--dark:#1a1a18;--text:#3a3a36;--text-light:#6b6b63;--white:#ffffff;--section-pad:clamp(60px,10vw,120px)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'Gill Sans','Gill Sans MT',Calibri,'Trebuchet MS',sans-serif;color:var(--text);background:var(--cream);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.serif{font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif}
+::selection{background:var(--teal);color:var(--white)}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:100;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;transition:all .4s}
+nav.scrolled{background:rgba(26,26,24,.95);backdrop-filter:blur(12px);padding:14px 40px}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:500;color:var(--white);letter-spacing:.5px;opacity:.9;transition:opacity .3s}
+.nav-logo:hover{opacity:1}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{color:rgba(255,255,255,.7);text-decoration:none;font-size:.8rem;font-weight:400;letter-spacing:1.5px;text-transform:uppercase;transition:color .3s}
+.nav-links a:hover{color:var(--gold)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--dark);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(26,122,109,.15),transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(212,168,75,.08),transparent 50%)}
+.hero-content{text-align:center;z-index:2;padding:0 24px;max-width:900px}
+.hero-badge{display:inline-block;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(212,168,75,.3);padding:8px 24px;margin-bottom:40px;opacity:0;animation:fadeUp .8s .3s forwards}
+.hero h1{font-size:clamp(2.8rem,6vw,5.5rem);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:24px;opacity:0;animation:fadeUp .8s .5s forwards}
+.hero h1 em{font-style:italic;color:var(--gold-light);font-weight:300}
+.hero-sub{font-size:clamp(1rem,1.8vw,1.2rem);color:rgba(255,255,255,.5);font-weight:300;line-height:1.7;max-width:600px;margin:0 auto;opacity:0;animation:fadeUp .8s .7s forwards}
+.scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp .8s 1.2s forwards}
+.scroll-hint span{font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,rgba(212,168,75,.5),transparent);animation:scrollPulse 2s infinite}
+
+/* SECTIONS */
+section{padding:var(--section-pad) clamp(24px,6vw,80px)}
+.section-label{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:16px;font-weight:500}
+.section-title{font-size:clamp(2rem,4vw,3.2rem);font-weight:300;line-height:1.2;color:var(--dark);margin-bottom:20px}
+.section-title em{font-style:italic;color:var(--teal)}
+
+/* PHILOSOPHY */
+.philosophy{background:var(--white);position:relative}
+.philosophy-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;max-width:1200px;margin:0 auto;align-items:center}
+.philosophy-text p{font-size:1.05rem;line-height:1.8;color:var(--text-light);margin-top:20px}
+.philosophy-visual{display:flex;flex-direction:column;gap:24px}
+.phil-card{padding:28px 32px;border-left:2px solid var(--gold);background:var(--cream);transition:transform .3s,box-shadow .3s}
+.phil-card:hover{transform:translateX(4px);box-shadow:12px 12px 40px rgba(0,0,0,.04)}
+.phil-card h3{font-size:1.3rem;font-weight:400;color:var(--dark);margin-bottom:6px}
+.phil-card p{font-size:.88rem;color:var(--text-light);line-height:1.6}
+
+/* COMPOUNDING */
+.compounding{background:var(--dark);color:var(--white);text-align:center}
+.compounding .section-label{color:var(--gold)}
+.compounding .section-title{color:var(--white)}
+.compounding .section-title em{color:var(--gold-light)}
+.compound-statement{font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:300;line-height:1.7;max-width:800px;margin:40px auto 0;color:rgba(255,255,255,.7)}
+.compound-statement strong{color:var(--gold-light);font-weight:400}
+
+/* WHAT WE DO */
+.services{background:var(--cream)}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px;max-width:1200px;margin:48px auto 0}
+.service-card{background:var(--white);padding:40px 36px;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.service-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.06)}
+.service-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--teal),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.service-card:hover::before{transform:scaleX(1)}
+.service-num{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:rgba(26,122,109,.12);line-height:1;margin-bottom:16px}
+.service-card h3{font-size:1.15rem;font-weight:500;color:var(--dark);margin-bottom:12px}
+.service-card p{font-size:.88rem;line-height:1.7;color:var(--text-light)}
+
+/* JOURNEY */
+.journey{background:var(--white)}
+.journey-container{max-width:900px;margin:48px auto 0}
+.journey-step{display:grid;grid-template-columns:60px 1fr;gap:24px;padding-bottom:48px;position:relative}
+.journey-step:last-child{padding-bottom:0}
+.journey-step:not(:last-child)::after{content:'';position:absolute;left:29px;top:60px;bottom:0;width:1px;background:linear-gradient(to bottom,var(--teal),rgba(26,122,109,.1))}
+.step-marker{width:60px;height:60px;border-radius:50%;border:1.5px solid var(--teal);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--teal);background:var(--white);position:relative;z-index:2;flex-shrink:0}
+.step-content h3{font-size:1.2rem;font-weight:500;color:var(--dark);margin-bottom:6px;padding-top:4px}
+.step-content .step-sub{font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:500}
+.step-content p{font-size:.92rem;line-height:1.7;color:var(--text-light)}
+
+/* RESULTS */
+.results{background:var(--teal-deep);color:var(--white);text-align:center}
+.results .section-label{color:var(--gold-light)}
+.results .section-title{color:var(--white)}
+.results .section-title em{color:var(--gold-light)}
+.results-intro{font-size:1rem;color:rgba(255,255,255,.6);max-width:650px;margin:8px auto 48px;line-height:1.7}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;max-width:1000px;margin:0 auto 56px}
+.stat{padding:32px 16px}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,3.5rem);font-weight:300;color:var(--gold-light);line-height:1}
+.stat-label{font-size:.8rem;color:rgba(255,255,255,.5);margin-top:8px;line-height:1.4}
+.result-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:1100px;margin:0 auto;text-align:left}
+.result-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);padding:32px;transition:background .3s}
+.result-card:hover{background:rgba(255,255,255,.1)}
+.result-card h3{font-size:1rem;font-weight:500;color:var(--gold-light);margin-bottom:10px}
+.result-card p{font-size:.85rem;line-height:1.7;color:rgba(255,255,255,.55)}
+
+/* DIFFERENCE */
+.difference{background:var(--cream)}
+.diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:1100px;margin:48px auto 0}
+.diff-col{padding:40px;background:var(--white)}
+.diff-col.teal-col{background:var(--teal-deep);color:var(--white)}
+.diff-col h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;margin-bottom:20px}
+.teal-col h3{color:var(--gold-light)}
+.diff-item{padding:12px 0;border-bottom:1px solid rgba(0,0,0,.06);font-size:.88rem;line-height:1.6;color:var(--text-light)}
+.teal-col .diff-item{border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
+
+/* CTA */
+.cta{background:var(--dark);text-align:center;padding:var(--section-pad) 24px}
+.cta .section-title{color:var(--white);margin-bottom:16px}
+.cta .section-title em{color:var(--gold-light)}
+.cta-sub{font-size:1rem;color:rgba(255,255,255,.45);max-width:550px;margin:0 auto 40px;line-height:1.7}
+.cta-btn{display:inline-block;padding:16px 48px;border:1px solid var(--gold);color:var(--gold);font-size:.8rem;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all .3s;font-family:'DM Sans',sans-serif}
+.cta-btn:hover{background:var(--gold);color:var(--dark)}
+
+/* FOOTER */
+footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.06);padding:32px 40px;display:flex;justify-content:space-between;align-items:center}
+footer p{font-size:.75rem;color:rgba(255,255,255,.3)}
+footer .tagline{font-family:'Cormorant Garamond',serif;font-style:italic;color:rgba(212,168,75,.4);font-size:.85rem}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scrollPulse{0%,100%{opacity:.3}50%{opacity:.8}}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+nav{padding:16px 20px}
+nav.scrolled{padding:12px 20px}
+.nav-links{display:none}
+.philosophy-grid,.diff-grid{grid-template-columns:1fr;gap:40px}
+.services-grid{grid-template-columns:1fr}
+.stats-grid{grid-template-columns:1fr 1fr}
+footer{flex-direction:column;gap:8px;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">The Seeker Foundation</div>
+
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Strategic Operations Partnership</div>
+    <h1>Thoughts to <em>Action</em></h1>
+    <p class="hero-sub">We don't just consult. We architect operational systems, measure what matters, and build the discipline that compounds. Micro changes making macro impact.</p>
+  </div>
+  <div class="scroll-hint">
+    <span>Explore</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<section class="philosophy" id="philosophy">
+  <div class="philosophy-grid">
+    <div class="philosophy-text reveal">
+      <div class="section-label">Our Philosophy</div>
+      <div class="section-title">Gain wisdom with <em>compounding effects</em></div>
+      <p>Most consulting engagements deliver a burst of change that fades within weeks. Training sessions become monotonous. Checklists get filled without meaning. Results dissolve because there's no system sustaining them.</p>
+      <p style="margin-top:16px">The Seeker Foundation exists to solve exactly this. We don't deliver training and leave. We build operational systems, embed measurement into every process, and stay until discipline becomes culture. The impact doesn't fade — it compounds. Every month of partnership adds layers of clarity, precision, and performance that wouldn't exist without continuous conditioning.</p>
+      <p style="margin-top:16px">This isn't a one-time engagement. It's an ongoing partnership where your brand and team receive the care, attention, and strategic nurturing they need to operate at a level most businesses only aspire to.</p>
+    </div>
+    <div class="philosophy-visual reveal" style="transition-delay:.2s">
+      <div class="phil-card">
+        <h3>Build the System</h3>
+        <p>Architect processes, checklists, and operational frameworks designed for your specific business — not templates, but tailored systems.</p>
+      </div>
+      <div class="phil-card">
+        <h3>Measure Everything</h3>
+        <p>Deploy POS-integrated analytics, compliance tracking, and performance scoring that gives you unprecedented visibility into your operation's health.</p>
+      </div>
+      <div class="phil-card">
+        <h3>Condition the Team</h3>
+        <p>Transform routines into habits through graduated deployment, on-ground training, and continuous re-conditioning. Discipline that sticks because it's built gradually.</p>
+      </div>
+      <div class="phil-card">
+        <h3>Sustain & Compound</h3>
+        <p>Monthly performance cycles that identify decay before it becomes crisis, optimize what's working, and continuously raise the standard. The compounding effect.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="compounding">
+  <div class="reveal">
+    <div class="section-label">The Core Belief</div>
+    <div class="section-title">Why results <em>fade</em> — and how we <em>prevent it</em></div>
+    <div class="compound-statement">
+      Human teams are dynamic. They need <strong>continuous conditioning</strong> to maintain peak performance. Without structured measurement, without regular training reinforcement, without someone watching the data and catching the drift early — <strong>standards slip silently</strong>. The operation looks fine from the outside. The numbers tell a different story.<br><br>
+      TSF is that story. We read the data your business generates every single day. We translate it into insights you can act on. We train your team not once, but every month — each session informed by what the data revealed since the last one. <strong>That's the compounding effect.</strong> Every cycle builds on the last. Every month, the gap between where you are and where you could be gets smaller.
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="reveal">
+    <div class="section-label">What We Do</div>
+    <div class="section-title">Three verticals. <em>One foundation.</em></div>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <h3>Strategic Operations Partnership</h3>
+      <p>For established brands seeking operational excellence, franchise readiness, or multi-outlet performance management. We become your operations backbone — architecting systems, measuring performance, training teams, and delivering monthly intelligence that lets owners manage strategically without being trapped in daily operations. Built for brands that want to scale with confidence.</p>
+    </div>
+    <div class="service-card reveal" style="transition-delay:.15s">
+      <div class="service-num">02</div>
+      <h3>Concept to Reality — Brand Architecture</h3>
+      <p>For entrepreneurs and visionaries turning food business ideas into operational realities. From central kitchen design and menu engineering to outlet operations and team building — TSF covers the full spectrum from concept validation to launch. Our culinary and operations team works as your business architects, not just consultants. We don't advise from the sideline. We build alongside you.</p>
+    </div>
+    <div class="service-card reveal" style="transition-delay:.3s">
+      <div class="service-num">03</div>
+      <h3>Operations Management</h3>
+      <p>For brands that need a dedicated operations intelligence layer without hiring a full internal team. TSF integrates into your business as the performance engine — managing real-time monitoring, virtual oversight, compliance tracking, and strategic course-correction. Your team executes. We ensure they execute right. Think of it as your operations command centre, powered by TSF.</p>
+    </div>
+  </div>
+</section>
+
+<section class="journey" id="journey">
+  <div class="reveal">
+    <div class="section-label">The TSF Journey</div>
+    <div class="section-title">How every <em>partnership</em> unfolds</div>
+  </div>
+  <div class="journey-container">
+    <div class="journey-step reveal">
+      <div class="step-marker">01</div>
+      <div class="step-content">
+        <div class="step-sub">Discovery</div>
+        <h3>We Listen Before We Build</h3>
+        <p>Every engagement starts with deep understanding. We sit with each stakeholder — owners, partners, team leads, and frontline staff — to understand not just how the business operates today, but where it needs to be. We audit every process, map every workflow, interview every team member. The output is a comprehensive assessment that often reveals truths the business didn't know about itself.</p>
+      </div>
+    </div>
+    <div class="journey-step reveal">
+      <div class="step-marker">02</div>
+      <div class="step-content">
+        <div class="step-sub">Architecture</div>
+        <h3>Systems Designed for Your Reality</h3>
+        <p>Based on the audit, we design the operational infrastructure — role-specific checklists, POS software configuration with full inventory module deployment, compliance protocols, communication hierarchies, and reporting structures. Nothing is templated. Every system is designed for how your business actually works, not how a textbook says it should.</p>
+      </div>
+    </div>
+    <div class="journey-step reveal">
+      <div class="step-marker">03</div>
+      <div class="step-content">
+        <div class="step-sub">Deployment</div>
+        <h3>Gradual, Not Overwhelming</h3>
+        <p>We deploy systems in phases, not all at once. The team absorbs new routines gradually — each addition building on the last until the entire operational framework is running. The key principle: routines must become habits. That requires patience, repetition, and the right pace. We've learned that overwhelming a team with systems destroys adoption. Graduating them into discipline builds permanence.</p>
+      </div>
+    </div>
+    <div class="journey-step reveal">
+      <div class="step-marker">04</div>
+      <div class="step-content">
+        <div class="step-sub">Measurement</div>
+        <h3>The Numbers Don't Lie</h3>
+        <p>Once systems are live, the measurement engine activates. POS data feeds into variance analysis. Checklist submissions generate compliance scores. Sales patterns reveal operational truths. Every month, TSF synthesizes this data into performance reports that give owners a complete picture — food costing, wastage, inventory variance, team scores, and strategic recommendations. This is where most consulting engagements end. For TSF, this is where the real work begins.</p>
+      </div>
+    </div>
+    <div class="journey-step reveal">
+      <div class="step-marker">05</div>
+      <div class="step-content">
+        <div class="step-sub">Conditioning</div>
+        <h3>Monthly Training, Informed by Data</h3>
+        <p>Every on-ground training session is driven by what the data revealed since the last one. If variance spiked in a specific area, training focuses there. If a team member's compliance dropped, coaching addresses it directly. This isn't generic training — it's precision intervention. The team improves because every session targets exactly where improvement is needed most.</p>
+      </div>
+    </div>
+    <div class="journey-step reveal">
+      <div class="step-marker">&#8734;</div>
+      <div class="step-content">
+        <div class="step-sub">Compounding</div>
+        <h3>The Cycle That Never Stops Growing</h3>
+        <p>Measure → Train → Refine → Measure again. Each cycle compounds on the last. Month 6 looks radically different from Month 1 — not because of one dramatic intervention, but because of six months of continuous, data-driven micro-improvements. That's the TSF effect. Micro changes making macro impact. And it only gets stronger with time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="results" id="results">
+  <div class="reveal">
+    <div class="section-label">Proven Impact</div>
+    <div class="section-title">Results that <em>speak</em></div>
+    <p class="results-intro">From our engagements across multi-outlet restaurant operations, QSR brands, and meal service businesses — measurable outcomes that demonstrate the compounding effect of TSF's approach.</p>
+  </div>
+  <div class="stats-grid reveal">
+    <div class="stat">
+      <div class="stat-num">95%+</div>
+      <div class="stat-label">Team Checklist Compliance Scores</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4.7×</div>
+      <div class="stat-label">Team size scaled with<br>maintained quality standards</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">&lt;3%</div>
+      <div class="stat-label">Inventory variance target<br>achieved across outlets</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">34+</div>
+      <div class="stat-label">Operational books &amp; frameworks<br>deployed for a single brand</div>
+    </div>
+  </div>
+  <div class="result-cards reveal">
+    <div class="result-card">
+      <h3>Multi-Outlet Food Court</h3>
+      <p>Took a newly launched 4-outlet food court from zero operational systems to fully documented, POS-integrated, performance-measured operations. Built individual team member performance profiles, annual recognition frameworks, recipe management dashboards, and bilingual SOPs serving a team of 70+ across kitchens, service, and housekeeping.</p>
+    </div>
+    <div class="result-card">
+      <h3>QSR Brand Operations</h3>
+      <p>Engaged with a growing QSR brand to transform sporadic training efforts into a structured operations partnership. Deployed POS inventory modules, compliance frameworks, and monthly performance measurement — establishing the 'Franchise Ready' benchmark required for confident scaling through the FOCO model.</p>
+    </div>
+    <div class="result-card">
+      <h3>Meal Subscription Service</h3>
+      <p>Integrated as the operations management layer for a health-focused meal plan service — managing production efficiency, quality control, and delivery operations. Demonstrating TSF's versatility across dine-in, QSR, and delivery business models within the food and hospitality ecosystem.</p>
+    </div>
+  </div>
+</section>
+
+<section class="difference">
+  <div class="reveal" style="text-align:center;margin-bottom:8px">
+    <div class="section-label">The Distinction</div>
+    <div class="section-title">Why TSF is <em>different</em></div>
+  </div>
+  <div class="diff-grid reveal">
+    <div class="diff-col">
+      <h3>Traditional Consulting</h3>
+      <div class="diff-item">Delivers training sessions and leaves the implementation to you</div>
+      <div class="diff-item">Provides recommendations as a report — execution is your problem</div>
+      <div class="diff-item">No measurement system to track whether anything actually improved</div>
+      <div class="diff-item">Results fade within weeks as team returns to old habits</div>
+      <div class="diff-item">Scope limited to what was discussed — no ongoing adaptation</div>
+      <div class="diff-item">You're left with documents but no engine to sustain the change</div>
+    </div>
+    <div class="diff-col teal-col">
+      <h3>The TSF Partnership</h3>
+      <div class="diff-item">Builds the system, deploys it with your team, and measures whether it's working — every month</div>
+      <div class="diff-item">Data-driven intelligence reports that show exactly what's happening and what to do next</div>
+      <div class="diff-item">Full POS integration with variance, food costing, wastage, and compliance tracking built in</div>
+      <div class="diff-item">Monthly re-conditioning ensures habits form permanently — not temporarily</div>
+      <div class="diff-item">Training sessions informed by last month's data — precision intervention, not generic sessions</div>
+      <div class="diff-item">Your operations partner — present, measuring, and improving every single month</div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="connect">
+  <div class="reveal">
+    <div class="section-title">Ready to build something <em>lasting?</em></div>
+    <p class="cta-sub">The first step is a conversation. We listen, we understand, and we'll tell you honestly whether TSF is the right fit for what you're building.</p>
+    <a href="mailto:dhiraj@theseekerfoundation.com" class="cta-btn">Start the Conversation</a>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 The Seeker Foundation. All rights reserved.</p>
+  <div class="tagline">Thoughts to Action — Micro Changes Making Macro Impact</div>
+</footer>
+
+<script>
+// Nav scroll
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>60)});
+
+// Reveal on scroll
+const reveals=document.querySelectorAll('.reveal');
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})
+},{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+reveals.forEach(el=>observer.observe(el));
+
+// Smooth scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{e.preventDefault();
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'})})
+});
+</script>
+</body>
+</html>
